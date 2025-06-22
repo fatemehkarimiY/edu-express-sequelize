@@ -7,6 +7,9 @@ const Course = require("../modules/course/course.model");
 const Enrollment = require("../modules/enrollment/enrollment.model");
 const Session = require("../modules/session/session.model");
 const Attendance = require("../modules/attendance/attendance.model");
+const { Order, OrderItem } = require("../modules/order/order.model");
+const Payment = require("../modules/payment/payment.model");
+const CartItem = require("../modules/cart/cartItem.model");
 async function initModels() {
   User.initModel(sequelize);
   Course.initModel(sequelize);
@@ -16,6 +19,10 @@ async function initModels() {
   Enrollment.initModel(sequelize);
   Session.initModel(sequelize);
   Attendance.initModel(sequelize);
+  Payment.initModel(sequelize);
+  Order.initModel(sequelize);
+  OrderItem.initModel(sequelize);
+  CartItem.initModel(sequelize);
 
   // #region user relationships
   // otp
@@ -112,6 +119,47 @@ async function initModels() {
     as: "session",
   });
 
+  // #region order
+  Order.hasMany(OrderItem, {
+    foreignKey: "orderId",
+    as: "items",
+  });
+  User.hasMany(Order, {
+    foreignKey: "userId",
+    as: "orders",
+  });
+  OrderItem.hasOne(Course, {
+    foreignKey: "courseId",
+    as: "course",
+  });
+  Order.hasOne(Payment, {
+    foreignKey: "orderId",
+    as: "payment",
+  });
+  Payment.hasOne(Payment, {
+    foreignKey: "paymentId",
+    as: "order",
+  });
+  OrderItem.belongsTo(Order, {
+    foreignKey: "orderId",
+    as: "order",
+  });
+
+  // cart
+
+  User.hasMany(CartItem, {
+    as: "cartItems",
+    foreignKey: "userId",
+  });
+
+  CartItem.belongsTo(Course, {
+    foreignKey: "courseId",
+  });
+
+  CartItem.belongsTo(User, {
+    foreignKey: "userId",
+  });
+  
   await sequelize.sync({ alter: true });
 }
 

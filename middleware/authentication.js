@@ -3,7 +3,7 @@ const User = require("../modules/user/user.model");
 require("dotenv").config();
 async function AuthMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
+  // console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -21,7 +21,7 @@ async function AuthMiddleware(req, res, next) {
     req.role = user.role;
     next();
   } catch (error) {
-    console.log("error:", error);
+    // console.log("error:", error);
     return res.status(401).json({ message: "Unauthorized" });
   }
 }

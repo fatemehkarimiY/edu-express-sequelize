@@ -1,4 +1,3 @@
-const { USER_ROLE } = require("../../constants/enums");
 const courseMessages = require("./course.messages");
 const courseService = require("./course.service");
 async function create(req, res, next) {
@@ -15,4 +14,29 @@ async function create(req, res, next) {
   }
 }
 
-module.exports = { create };
+async function update(req, res, next) {
+  try {
+    const id = req.params.id;
+    let payload = { ...req.body, id };
+    const course = await courseService.update(payload);
+    res
+      .status(200)
+      .json({ message: courseMessages.courseUpdated, data: course });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function remove(req, res, next) {
+  try {
+    const id = req.params.id;
+    const course = await courseService.remove(id);
+    res
+      .status(200)
+      .json({ message: courseMessages.courseDeleted, data: course });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { create, update, remove };

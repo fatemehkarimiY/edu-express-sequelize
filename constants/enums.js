@@ -3,6 +3,12 @@ const USER_ROLE = {
   STUDENT: "student",
   TEACHER: "teacher",
 };
+const PAYMENT_STATUS = {
+  CANCELED: "canceled",
+  SUCCESSFUL: "successful",
+  FAILED: "failed",
+  PENDING: "pending",
+};
 
 const GENDER_ENUM = {
   MALE: "male",
@@ -42,6 +48,12 @@ const ATTENDANCE_TYPES = {
   ABSENT: "absent",
   PRESENT: "present",
 };
+const ORDER_STATUS = {
+  PENDING: "pending",
+  ORDERED: "ordered",
+  IN_PROCESS: "in_process",
+  COMPLETED: "completed",
+};
 
 module.exports = {
   USER_ROLE,
@@ -51,4 +63,6 @@ module.exports = {
   ABSENCE_TYPES,
   SESSION_STATUS,
   ATTENDANCE_TYPES,
+  PAYMENT_STATUS,
+  ORDER_STATUS
 };

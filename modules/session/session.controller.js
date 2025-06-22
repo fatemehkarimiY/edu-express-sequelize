@@ -1,4 +1,3 @@
-const { USER_ROLE } = require("../../constants/enums");
 const courseMessages = require("./session.messages");
 const courseService = require("./session.service");
 async function create(req, res, next) {
