@@ -19,10 +19,10 @@ async function initModels() {
   Enrollment.initModel(sequelize);
   Session.initModel(sequelize);
   Attendance.initModel(sequelize);
-  Payment.initModel(sequelize);
   Order.initModel(sequelize);
   OrderItem.initModel(sequelize);
   CartItem.initModel(sequelize);
+  Payment.initModel(sequelize);
 
   // #region user relationships
   // otp
@@ -154,12 +154,13 @@ async function initModels() {
 
   CartItem.belongsTo(Course, {
     foreignKey: "courseId",
+    as: "course",
   });
 
   CartItem.belongsTo(User, {
     foreignKey: "userId",
   });
-  
+
   await sequelize.sync({ alter: true });
 }
 

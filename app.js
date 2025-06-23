@@ -10,6 +10,8 @@ const { enrollmentRoutes } = require("./modules/enrollment/enrollment.routes");
 const { SessionRoutes } = require("./modules/session/session.routes");
 const { AttendanceRoutes } = require("./modules/attendance/attendance.routes");
 const { CartRoutes } = require("./modules/cart/cart.routes");
+const { OrderRoutes } = require("./modules/order/order.routes");
+const { PaymentRoutes } = require("./modules/payment/payment.routes");
 require("dotenv").config();
 
 async function main() {
@@ -27,6 +29,8 @@ async function main() {
   app.use("/session", SessionRoutes);
   app.use("/attendance", AttendanceRoutes);
   app.use("/cart", CartRoutes);
+  app.use("/order", OrderRoutes);
+  app.use("/payment", PaymentRoutes);
 
   app.use(NotFoundHandler);
   app.use(ErrorHandler);

@@ -10,7 +10,7 @@ router.post(
   "/",
   createEnrollmentValidation,
   AuthMiddleware,
-  AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
+  AuthorizeRole(USER_ROLE.STUDENT),
   enrollmentController.create
 );
 

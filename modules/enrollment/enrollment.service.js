@@ -1,43 +1,81 @@
-const User = require("../user/user.model");
 const Enrollment = require("./enrollment.model");
 const createHttpError = require("http-errors");
-const EnrollmentMessages = require("./enrollment.message");
-const { USER_ROLE } = require("../../constants/enums");
+const { ENROLLMENT_STATUS } = require("../../constants/enums");
 const Course = require("../course/course.model");
 
-async function add({ studentId, courseId }) {
-  if (!studentId || !courseId) {
-    throw createHttpError.BadRequest(
-      EnrollmentMessages.studentIdAndCourseIdRequired
-    );
-  }
+//todo check for expired time
+async function create({ studentId, courseId }) {
   const enrollment = await Enrollment.findOne({
     where: { studentId: studentId, courseId },
   });
+
   if (enrollment) {
-    throw createHttpError.Conflict(EnrollmentMessages.duplicateUser);
+    if (enrollment.status == ENROLLMENT_STATUS.PENDING) {
+      throw createHttpError.BadRequest("شما یک سفارش پرداخت نشده دارید.");
+    }
+    if (enrollment.status == ENROLLMENT_STATUS.COMPLETED) {
+      throw createHttpError.BadRequest(
+        "شما قبلا در این دوره ثبت نام کرده اید."
+      );
+    }
   }
 
-  const user = await User.findOne({
-    where: { id: studentId, role: USER_ROLE.STUDENT },
-  });
-
-  if (!user) {
-    throw createHttpError.NotFound(EnrollmentMessages.studentNotFound);
-  }
   const course = await Course.findByPk(courseId);
   if (!course) {
-    throw createHttpError.NotFound(EnrollmentMessages.courseNotFound);
+    throw createHttpError.NotFound("درس وجود ندارد");
   }
-
-  //todo check capacity of course
-
+  const allEnrollmentForThisCourse = await Enrollment.findAll({
+    where: { courseId, status: ENROLLMENT_STATUS.COMPLETED },
+  });
+  if (allEnrollmentForThisCourse.length === course.capacity) {
+    throw createHttpError.BadRequest("این درس تکمیل ظرفیت شده است");
+  }
   await Enrollment.create({
     courseId,
-    studentId: studentId,
+    studentId,
   });
+}
+async function cancelEnrollment({ studentId, enrollmentId, reason }) {
+  const enrollment = await Enrollment.findOne({
+    where: { userId: studentId, id: enrollmentId },
+  });
+  if (!enrollment) {
+    throw createHttpError.NotFound("یافت نشد");
+  }
+  if ((enrollment.status = ENROLLMENT_STATUS.COMPLETED)) {
+    throw createHttpError.BadRequest("پرداخت این درس تکمیل شده است");
+    //todo add return money
+  }
+
+  enrollment.status = ENROLLMENT_STATUS.CANCELED;
+  await enrollment.save();
+}
+async function deleteEnrollment({ studentId, enrollmentId, reason }) {
+  const enrollment = await Enrollment.findOne({
+    where: { userId: studentId, id: enrollmentId },
+  });
+  if (!enrollment) {
+    throw createHttpError.NotFound("یافت نشد");
+  }
+  if ((enrollment.status = ENROLLMENT_STATUS.COMPLETED)) {
+    throw createHttpError.BadRequest("پرداخت این درس تکمیل شده است");
+    //todo add return money
+  }
+
+  enrollment.destroy();
+  await enrollment.save();
+}
+
+async function getPendingEnrollments(userId) {
+  const enrollments = await Enrollment.findAll({
+    where: { studentId: userId, status: ENROLLMENT_STATUS.PENDING },
+  });
+  return enrollments
 }
 
 module.exports = {
-  add,
+  create,
+  cancelEnrollment,
+  deleteEnrollment,
+  getPendingEnrollments
 };

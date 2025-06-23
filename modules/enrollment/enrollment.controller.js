@@ -3,9 +3,10 @@ const enrollmentService = require("./enrollment.service");
 
 async function create(req, res, next) {
   try {
-    const { studentId, courseId } = req.body;
+    const userId = req.user;
+    const { courseId } = req.body;
 
-    await enrollmentService.add({ studentId, courseId });
+    await enrollmentService.create({ studentId: userId, courseId });
     res.status(200).json({
       message: EnrollmentMessages.add,
     });

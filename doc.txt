@@ -1,0 +1,40 @@
+
+auth
+ /post login
+ /post send-otp
+ /post verify-otp
+
+
+[admin, teacher, student]
+profile
+ /put
+ /get
+
+[admin]
+role
+ /put
+
+[admin, teacher]
+course
+ /post
+ /put
+ /delete
+
+[admin, teacher]
+session
+ /post session
+
+[student]
+order
+ /post order
+
+[student] 
+enrollment
+ /post enrollment
+
+[student]
+payment
+ /post payment 
+ /post verify
+
+

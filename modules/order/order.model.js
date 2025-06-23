@@ -12,7 +12,7 @@ class Order extends Model {
         },
         paymentId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         userId: {
           type: DataTypes.INTEGER,
@@ -31,6 +31,9 @@ class Order extends Model {
           type: DataTypes.ENUM(...Object.values(ORDER_STATUS)),
           allowNull: false,
           defaultValue: ORDER_STATUS.PENDING,
+        },
+        expiredIn: {
+          type: DataTypes.DATE,
         },
       },
       {

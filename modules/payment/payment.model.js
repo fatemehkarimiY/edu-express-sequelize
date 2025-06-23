@@ -21,6 +21,7 @@ class Payment extends Model {
           type: DataTypes.STRING,
           allowNull: true,
         },
+        
         status: {
           type: DataTypes.ENUM(...Object.values(PAYMENT_STATUS)),
           allowNull: false,

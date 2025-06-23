@@ -17,9 +17,11 @@ const GENDER_ENUM = {
 };
 
 const ENROLLMENT_STATUS = {
-  PENDING: "pending",
+  PENDING: "pending", //pending for payment
   COMPLETED: "completed",
   FAILED: "failed",
+  CANCELED: "canceled",
+  
 };
 
 const COURSE_STATUS = {
@@ -64,5 +66,5 @@ module.exports = {
   SESSION_STATUS,
   ATTENDANCE_TYPES,
   PAYMENT_STATUS,
-  ORDER_STATUS
+  ORDER_STATUS,
 };

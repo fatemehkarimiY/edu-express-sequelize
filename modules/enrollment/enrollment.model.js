@@ -23,11 +23,11 @@ class Enrollment extends Model {
           allowNull: false,
           defaultValue: ENROLLMENT_STATUS.PENDING,
         },
-        date: {
-          type: DataTypes.DATE,
-          allowNull: false,
-          defaultValue: new Date(),
-        },
+        // date: {
+        //   type: DataTypes.DATE,
+        //   allowNull: false,
+        //   defaultValue: new Date(),
+        // },
       },
 
       {
