@@ -9,7 +9,6 @@ const Session = require("../modules/session/session.model");
 const Attendance = require("../modules/attendance/attendance.model");
 const { Order, OrderItem } = require("../modules/order/order.model");
 const Payment = require("../modules/payment/payment.model");
-const CartItem = require("../modules/cart/cartItem.model");
 async function initModels() {
   User.initModel(sequelize);
   Course.initModel(sequelize);
@@ -21,7 +20,6 @@ async function initModels() {
   Attendance.initModel(sequelize);
   Order.initModel(sequelize);
   OrderItem.initModel(sequelize);
-  CartItem.initModel(sequelize);
   Payment.initModel(sequelize);
 
   // #region user relationships
@@ -140,26 +138,7 @@ async function initModels() {
     foreignKey: "paymentId",
     as: "order",
   });
-  OrderItem.belongsTo(Order, {
-    foreignKey: "orderId",
-    as: "order",
-  });
 
-  // cart
-
-  User.hasMany(CartItem, {
-    as: "cartItems",
-    foreignKey: "userId",
-  });
-
-  CartItem.belongsTo(Course, {
-    foreignKey: "courseId",
-    as: "course",
-  });
-
-  CartItem.belongsTo(User, {
-    foreignKey: "userId",
-  });
 
   await sequelize.sync({ alter: true });
 }

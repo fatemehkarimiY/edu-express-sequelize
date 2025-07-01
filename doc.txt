@@ -1,8 +1,15 @@
 
+Endpoints:{
+    auth:{
+        [login]:
+         /post
+         params: mobile, password 
+        /post send-otp
+        /post verify-otp
+    }
+}
 auth
- /post login
- /post send-otp
- /post verify-otp
+
 
 
 [admin, teacher, student]
@@ -36,5 +43,26 @@ enrollment
 payment
  /post payment 
  /post verify
+
+
+
+
+steps
+send-otp=>get otp code
+verify-otp=> get accessToken
+
+
+admin
+role
+
+
+teacher,admin
+course
+session
+attendance
+
+student
+enrollment
+payment
 
 

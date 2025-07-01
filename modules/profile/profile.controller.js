@@ -1,5 +1,6 @@
 const profileService = require("./profile.service");
 const ProfileMessages = require("./profile.message");
+
 async function update(req, res, next) {
   try {
     const id = req.user;
@@ -13,8 +14,10 @@ async function update(req, res, next) {
     next(error);
   }
 }
+
 async function get(req, res, next) {
   try {
+    
     const id = req.user;
     const user = await profileService.getProfile(id);
     res

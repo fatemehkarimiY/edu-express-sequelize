@@ -72,10 +72,17 @@ async function getPendingEnrollments(userId) {
   });
   return enrollments
 }
+async function getUserEnrollments({userId , status}) {
+  const enrollments = await Enrollment.findAll({
+    where: { studentId: userId, status: status },
+  });
+  return enrollments
+}
 
 module.exports = {
   create,
   cancelEnrollment,
   deleteEnrollment,
-  getPendingEnrollments
+  getPendingEnrollments,
+  getUserEnrollments
 };

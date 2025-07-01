@@ -14,13 +14,17 @@ async function payment(req, res, next) {
 
 async function paymentVerify(req, res, next) {
   try {
-    const {Authority, Status} = req?.query;
+    const { Authority, Status } = req?.body;
     const result = await PaymentService.verify(Authority, Status);
+    res.status(200).json({
+      message: "verify",
+      data: result,
+    });
   } catch (error) {
     next(error);
   }
 }
 module.exports = {
   payment,
-  paymentVerify
+  paymentVerify,
 };

@@ -1,9 +1,18 @@
 const orderService = require("./order.service");
 
-async function createOrder(req, res, next) {
+// async function createOrder(req, res, next) {
+//   try {
+//     const userId = req.user;
+//     const result = await orderService.create(userId);
+//     res.status(200).json({ message: "order created", data: result });
+//   } catch (err) {
+//     next(err);
+//   }
+// }
+async function getUserOrders(req, res, next) {
   try {
     const userId = req.user;
-    const result = await orderService.create(userId);
+    const result = await orderService.getUserOrders(userId);
     res.status(200).json({ message: "order created", data: result });
   } catch (err) {
     next(err);
@@ -13,7 +22,6 @@ async function createOrder(req, res, next) {
 
 
 module.exports = {
-  createOrder,
-  //   getCartItems,
-  //   remove
+  // createOrder,
+  getUserOrders
 };

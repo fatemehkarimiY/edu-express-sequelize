@@ -13,5 +13,17 @@ router.post(
   AuthorizeRole(USER_ROLE.STUDENT),
   enrollmentController.create
 );
+router.get(
+  "/",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.STUDENT),
+  enrollmentController.getEnrollments
+);
+// router.get(
+//   "/",
+//   AuthMiddleware,
+//   AuthorizeRole(USER_ROLE.STUDENT),
+//   enrollmentController.getPending
+// );
 
 module.exports = { enrollmentRoutes: router };

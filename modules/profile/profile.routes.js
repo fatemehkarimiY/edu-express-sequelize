@@ -7,5 +7,5 @@ router.put("/", AuthMiddleware, profileController.update);
 router.get("/", AuthMiddleware, profileController.get);
 
 module.exports = {
-  profileRoutes: router,
+  ProfileRoutes: router,
 };

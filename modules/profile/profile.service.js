@@ -1,6 +1,8 @@
 const createHttpError = require("http-errors");
 const User = require("../user/user.model");
 const Profile = require("./profile.model");
+const ProfileMessages = require("./profile.message");
+
 /** * AuthService provides methods for user authentication, including login, sending OTP, and verifying OTP.
  * @module profileService
  */
@@ -10,11 +12,7 @@ async function updateProfile(params) {
   if (!id) {
     throw createHttpError.NotFound("id " + ProfileMessages.isRequired);
   }
-  const profile = await Profile.findByPk(id);
-
-  if (!profile) {
-    throw createHttpError.NotFound(ProfileMessages.notFount);
-  }
+  const profile = await findProfileByUserId(id);
 
   //todo
   if (fullname) {
@@ -46,18 +44,26 @@ async function getProfile(id) {
   if (!id) {
     throw createHttpError.NotFound("id " + ProfileMessages.isRequired);
   }
-  const profile = await Profile.findByPk(id, {
+
+  const profile = await findProfileByUserId(id);
+
+  return profile;
+}
+
+async function findProfileByUserId(userId) {
+  const profile = await Profile.findOne({
+    where: { userId: userId },
     include: {
       model: User,
       as: "user",
+      attributes: ["mobile"],
     },
+    raw: true,
   });
-
   if (!profile) {
     throw createHttpError.NotFound(ProfileMessages.notFount);
   }
 
   return profile;
 }
-
 module.exports = { updateProfile, getProfile };

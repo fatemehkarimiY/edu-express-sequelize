@@ -2,8 +2,10 @@ const createHttpError = require("http-errors");
 const courseMessages = require("./course.messages");
 const Course = require("./course.model");
 const User = require("../user/user.model");
+const Enrollment = require("../enrollment/enrollment.model");
 const Session = require("../session/session.model");
-const { USER_ROLE } = require("../../constants/enums");
+const { USER_ROLE, ENROLLMENT_STATUS } = require("../../constants/enums");
+const Profile = require("../profile/profile.model");
 
 async function create({ payload, role, userId }) {
   let { teacherId, title, description, price, status, capacity } = payload;
@@ -107,4 +109,42 @@ async function remove(id) {
   await course.destroy();
 }
 
-module.exports = { create, remove, update };
+async function getList() {
+  const courses = await Course.findAll();
+  return courses;
+}
+
+async function getCourseSessions(courseId) {
+  const result = await Session.findAll({ where: { courseId } });
+  return result;
+}
+async function getCourseStudents(courseId) {
+  const enrollments = await Enrollment.findAll({
+    where: { courseId, status: ENROLLMENT_STATUS.COMPLETED },
+    include: {
+      model: User,
+      as: "user",
+      attributes: ["mobile"],
+      include: {
+        model: Profile,
+        as: "profile",
+        attributes: ["fullName", "avatar", "birthDate"],
+      },
+    },
+    raw: true,
+  });
+
+  return enrollments.map(({ user }) => ({
+    mobile: user.mobile,
+    ...user.profile,
+  }));
+}
+
+module.exports = {
+  create,
+  remove,
+  update,
+  getList,
+  getCourseSessions,
+  getCourseStudents,
+};

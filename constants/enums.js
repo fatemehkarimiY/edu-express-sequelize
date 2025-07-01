@@ -2,7 +2,9 @@ const USER_ROLE = {
   ADMIN: "admin",
   STUDENT: "student",
   TEACHER: "teacher",
+  USER: "user",
 };
+
 const PAYMENT_STATUS = {
   CANCELED: "canceled",
   SUCCESSFUL: "successful",
@@ -21,7 +23,6 @@ const ENROLLMENT_STATUS = {
   COMPLETED: "completed",
   FAILED: "failed",
   CANCELED: "canceled",
-  
 };
 
 const COURSE_STATUS = {
@@ -55,6 +56,7 @@ const ORDER_STATUS = {
   ORDERED: "ordered",
   IN_PROCESS: "in_process",
   COMPLETED: "completed",
+  FAILED: "failed",
 };
 
 module.exports = {

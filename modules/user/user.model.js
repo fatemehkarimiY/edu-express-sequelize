@@ -20,7 +20,8 @@ class User extends Model {
         },
         role: {
           type: DataTypes.ENUM(...Object.values(USER_ROLE)),
-          allowNull: true,
+          defaultValue: USER_ROLE.USER,
+          allowNull: false,
         },
         password: {
           type: DataTypes.STRING,

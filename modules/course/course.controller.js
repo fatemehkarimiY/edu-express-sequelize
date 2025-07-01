@@ -7,6 +7,29 @@ async function create(req, res, next) {
     const userId = req.user;
     const course = await courseService.create({ payload, role, userId });
     res
+      .status(201)
+      .json({ message: courseMessages.courseCreated, data: course });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getList(req, res, next) {
+  try {
+   
+    const course = await courseService.getList();
+    res
+      .status(200)
+      .json({ message: courseMessages.courseCreated, data: course });
+  } catch (error) {
+    next(error);
+  }
+}
+async function getCourseSessions(req, res, next) {
+  try {
+   const courseId = req.params?.courseId
+    const course = await courseService.getCourseSessions(courseId);
+    res
       .status(200)
       .json({ message: courseMessages.courseCreated, data: course });
   } catch (error) {
@@ -38,5 +61,17 @@ async function remove(req, res, next) {
     next(error);
   }
 }
+async function getCourseStudents(req, res, next) {
 
-module.exports = { create, update, remove };
+  try {
+    const courseId = req.params.courseId;
+    const list = await courseService.getCourseStudents(courseId);
+    res
+      .status(200)
+      .json({ message: courseMessages.courseDeleted, data: list });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { create, update, remove,getList,getCourseSessions ,getCourseStudents};

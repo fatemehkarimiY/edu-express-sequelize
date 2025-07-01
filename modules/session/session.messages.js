@@ -7,8 +7,10 @@ const courseMessages = {
   invalidCourseData: "Invalid course data provided",
   courseStatusUpdated: "Course status updated successfully",
   teacherNotFound: "teacher is not correct",
-  courseIsRequired:"Course is required",
-  duplicateSessionInThisTime:"duplicate Session In This Time"
+  courseIsRequired: "Course is required",
+  duplicateSessionInThisTime: "duplicate Session In This Time",
+  sessionNotFound: "Session not found",
+  remove:"removed successfully"
 };
 
 module.exports = courseMessages;

@@ -5,11 +5,17 @@ const { AuthorizeRole } = require("../../middleware/authorizeRole");
 const { USER_ROLE } = require("../../constants/enums");
 const router = Router();
 
-router.post(
+// router.post(
+//   "/",
+//   AuthMiddleware,
+//   AuthorizeRole(USER_ROLE.STUDENT),
+//   OrderController.createOrder
+// );
+router.get(
   "/",
   AuthMiddleware,
   AuthorizeRole(USER_ROLE.STUDENT),
-  OrderController.createOrder
+  OrderController.getUserOrders
 );
 
 module.exports = {

@@ -7,6 +7,7 @@ const {
   zarinpalRequest,
   zarinpalVerify,
 } = require("../zarinpal/zarinpal.service");
+const createHttpError = require("http-errors");
 async function payment({ userId }) {
   //getUserEnrollmentThatReadyToPay
   const enrollments = await getPendingEnrollments(userId);
@@ -39,24 +40,33 @@ async function payment({ userId }) {
 }
 
 async function verify(Authority, Status) {
-  if (Status === "OK" && Authority) {
+  if (Authority) {
     const payment = await Payment.findOne({ where: { authority: Authority } });
     if (!payment) throw createHttpError(404, "payment not found");
-    const result = await zarinpalVerify(payment?.amount, payment?.authority);
+    const order = await Order.findByPk(payment.orderId);
+    if (!order) throw createHttpError(404, "order not found");
 
-    if (result) {
-      payment.status = PAYMENT_STATUS.SUCCESSFUL;
-      payment.refId = result.ref_id ?? "32456";
-      const order = await Order.findByPk(payment.orderId);
-      if (!order) throw createHttpError(404, "not found order");
-      order.status = ORDER_STATUS.COMPLETED;
+    if (Status === "OK") {
+      const result = await zarinpalVerify(payment?.amount, payment?.authority);
+      if (result) {
+        payment.status = PAYMENT_STATUS.SUCCESSFUL;
+        payment.refId = result.ref_id ?? "32456";
+        order.status = ORDER_STATUS.COMPLETED;
+        await order.save();
+        //todo enrollments status????
+        // return res.redirect("http://frontenddomain.com/payment?status=success");
+      } else {
+        payment.status = PAYMENT_STATUS.FAILED;
+        await payment.save();
+      }
+    } else if (Status === "NOK") {
+      payment.status = PAYMENT_STATUS.FAILED;
+      await payment.save();
+      order.status = ORDER_STATUS.FAILED;
       await order.save();
-      //todo enrollments status????
-      return res.redirect("http://frontenddomain.com/payment?status=success");
-    } else {
-      await Payment.destroy({ where: { id: payment?.id } });
-      await Order.destroy({ where: { id: payment?.orderId } });
     }
+  } else {
+    throw createHttpError(404, "Authority not found");
   }
 }
 module.exports = {
