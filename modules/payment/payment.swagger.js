@@ -6,7 +6,7 @@
 
  * /payment:
  *   post:
- *     summary: پرداخت دوره های ‌منتظر پرداخت
+ *     summary: 
  *     tags: [Payment]
  *     security:
  *       - bearerAuth: []
@@ -29,7 +29,7 @@
 
  * /payment/verify:
  *   post:
- *     summary: تایید پرداخت
+ *     summary: 
  *     tags: [Payment]
  *     security:
  *       - bearerAuth: []

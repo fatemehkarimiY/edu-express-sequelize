@@ -7,6 +7,7 @@ const updateProfileSchema = Joi.object({
   bio: Joi.string(),
   birthDate: Joi.date(),
   latitude: Joi.string(),
+  password: Joi.string(),
   longitude: Joi.string(),
   gender: Joi.string()
     .valid(...Object.values(GENDER_ENUM))

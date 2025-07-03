@@ -6,7 +6,7 @@
 
  * /order:
  *   get:
- *     summary: لیست سفارشات کاربر
+ *     summary: 
  *     tags: [Order]
  *     security:
  *       - bearerAuth: []

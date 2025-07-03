@@ -2,11 +2,11 @@
  * @swagger
  * tags:
  *   name: Enrollment
- *   description: مدیریت ثبت نام ها
+ *   description: 
 
  * /enrollment:
  *   post:
- *     summary: ایجاد ثبت نام جدید
+ *     summary:  
  *     tags: [Enrollment]
  *     security:
  *       - bearerAuth: []

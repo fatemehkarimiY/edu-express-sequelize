@@ -9,11 +9,11 @@
  *
  * tags:
  *   - name: Course
- *     description: مدیریت دوره ها
+ *     description:
  *
  * /course:
  *   post:
- *     summary: ایجاد دوره جدید
+ *     summary: 
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -35,7 +35,7 @@
  * 
  * /course/{id}:
  *   put:
- *     summary: ویرایش دوره
+ *     summary:  
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -43,7 +43,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: شناسه دوره
+ *         description: 
  *         schema:
  *           type: integer
  *     requestBody:
@@ -65,7 +65,7 @@
  *         description: دوره پیدا نشد
  *
  *   delete:
- *     summary: حذف دوره
+ *     summary: 
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -93,7 +93,7 @@
  * @swagger
  * /course:
  *  get:
- *      summary: get course list
+ *      summary: 
  *      tags:
  *          -   Course
  *      security:
@@ -108,7 +108,7 @@
  * @swagger
  * /course/{courseId}/sessions:
  *  get:
- *      summary: get course sessions
+ *      summary: 
  *      tags:
  *          -   Course
  *      security:
@@ -128,7 +128,7 @@
  * @swagger
  * /course/{courseId}/students:
  *  get:
- *      summary: get course students
+ *      summary: 
  *      tags:
  *          -   Course
  *      security:

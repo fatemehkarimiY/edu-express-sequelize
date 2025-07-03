@@ -4,7 +4,7 @@
  *   name: Session
  * /session:
  *   post:
- *     summary: ایجاد جلسه جدید
+ *     summary: 
  *     tags: [Session]
  *     security:
  *       - bearerAuth: []

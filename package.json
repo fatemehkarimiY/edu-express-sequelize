@@ -20,6 +20,7 @@
     "express-validation": "^4.1.1",
     "http-errors": "^2.0.0",
     "joi-to-swagger": "^6.2.0",
+    "jsonwebtoken": "^9.0.2",
     "pino": "^9.7.0",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3",

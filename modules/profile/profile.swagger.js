@@ -2,10 +2,10 @@
  * @swagger
  *   tags:
  *   name: Profile
- *   description: پروفایل
+ *   description:
  * /profile:
  *  get:
- *      summary: get profile
+ *      summary:
  *      tags:
  *          -   Profile
  *      security:
@@ -19,10 +19,10 @@
  * @swagger
  * tags:
  *   name: Profile
- *   description: پروفایل
+ *   description: 
  * /profile:
  *   put:
- *     summary: ویرایش پروفایل
+ *     summary: 
  *     tags: [Profile]
  *     security:
  *       - bearerAuth: []

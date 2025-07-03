@@ -6,7 +6,7 @@
 
  * /role:
  *   put:
- *     summary: ایجاد جلسه جدید
+ *     summary:
  *     tags: [Role]
  *     security:
  *       - bearerAuth: []

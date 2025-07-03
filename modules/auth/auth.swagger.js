@@ -4,7 +4,7 @@
  * @swagger
  * /auth/login:
  *   post:
- *     summary: ورود کاربر با موبایل و رمز عبور
+ *     summary: 
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -31,7 +31,7 @@
  * @swagger
  * /auth/send-otp:
  *   post:
- *     summary: ارسال کد تایید به موبایل
+ *     summary: 
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -48,7 +48,7 @@
  * @swagger
  * /auth/verify-otp:
  *   post:
- *     summary: تایید کد OTP
+ *     summary: 
  *     tags: [Auth]
  *     requestBody:
  *       required: true
