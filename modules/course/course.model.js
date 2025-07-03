@@ -23,7 +23,7 @@ class Course extends Model {
           allowNull: true,
         },
         price: {
-          type: DataTypes.DECIMAL(4, 2),
+          type: DataTypes.DECIMAL(10, 2),
           allowNull: true,
         },
         status: {

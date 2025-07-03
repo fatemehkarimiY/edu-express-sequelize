@@ -13,7 +13,6 @@ class Profile extends Model {
         userId: {
           type: DataTypes.INTEGER,
           allowNull: false,
-          unique: true,
         },
         fullname: {
           type: DataTypes.STRING,

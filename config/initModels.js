@@ -33,6 +33,7 @@ async function initModels() {
   Otp.belongsTo(User, {
     foreignKey: "userId",
     targetKey: "id",
+    as: "user",
   });
 
   // profile
@@ -138,7 +139,6 @@ async function initModels() {
     foreignKey: "paymentId",
     as: "order",
   });
-
 
   await sequelize.sync({ alter: true });
 }

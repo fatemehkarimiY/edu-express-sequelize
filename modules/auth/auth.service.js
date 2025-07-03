@@ -13,9 +13,9 @@ const RefreshToken = require("../user/refreshToken.model");
  */
 async function login(mobile, password) {
   //todo add validation
-  if (!mobile || !password) {
-    throw createHttpError.BadRequest(authMessages.mobileAndPasswordRequired);
-  }
+  // if (!mobile || !password) {
+  //   throw createHttpError.BadRequest(authMessages.mobileAndPasswordRequired);
+  // }
 
   const user = await User.findOne({ where: { mobile } });
 
