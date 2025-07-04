@@ -13,7 +13,7 @@
  *
  * /course:
  *   post:
- *     summary: 
+ *     summary:
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -32,10 +32,10 @@
  *         description: عدم احراز هویت
  *       403:
  *         description: دسترسی غیرمجاز
- * 
+ *
  * /course/{id}:
  *   put:
- *     summary:  
+ *     summary:
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -43,7 +43,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: 
+ *         description:
  *         schema:
  *           type: integer
  *     requestBody:
@@ -65,7 +65,28 @@
  *         description: دوره پیدا نشد
  *
  *   delete:
- *     summary: 
+ *     summary:
+ *     tags: [Course]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: شناسه دوره
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: دوره حذف شد
+ *       401:
+ *         description: عدم احراز هویت
+ *       403:
+ *         description: دسترسی غیرمجاز
+ *       404:
+ *         description: دوره پیدا نشد
+ *   get:
+ *     summary:
  *     tags: [Course]
  *     security:
  *       - bearerAuth: []
@@ -87,13 +108,11 @@
  *         description: دوره پیدا نشد
  */
 
-
-
 /**
  * @swagger
  * /course:
  *  get:
- *      summary: 
+ *      summary:
  *      tags:
  *          -   Course
  *      security:
@@ -103,12 +122,11 @@
  *              description: success
  */
 
-
 /**
  * @swagger
  * /course/{courseId}/sessions:
  *  get:
- *      summary: 
+ *      summary:
  *      tags:
  *          -   Course
  *      security:
@@ -117,7 +135,7 @@
  *       - name: courseId
  *         in: path
  *         required: true
- *         description: آیدی دوره
+ *         description:
  *         schema:
  *           type: integer
  *      responses:
@@ -128,7 +146,7 @@
  * @swagger
  * /course/{courseId}/students:
  *  get:
- *      summary: 
+ *      summary:
  *      tags:
  *          -   Course
  *      security:
@@ -137,7 +155,7 @@
  *       - name: courseId
  *         in: path
  *         required: true
- *         description: آیدی دوره
+ *         description:
  *         schema:
  *           type: integer
  *      responses:

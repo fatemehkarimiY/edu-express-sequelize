@@ -31,6 +31,7 @@ async function getEnrollments(req, res, next) {
   try {
     const userId = req.user;
     const status = req.query?.status;
+    
     const result = await enrollmentService.getUserEnrollments({
       userId,
       status,

@@ -26,6 +26,10 @@ class Course extends Model {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: true,
         },
+        payablePrice: {
+          type: DataTypes.DECIMAL(10, 2),
+          allowNull: true,
+        },
         status: {
           type: DataTypes.ENUM(...Object.values(COURSE_STATUS)),
           allowNull: false,
@@ -41,6 +45,9 @@ class Course extends Model {
         tableName: "course",
         sequelize,
         underscored: true,
+        defaultScope: {
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
       }
     );
   }

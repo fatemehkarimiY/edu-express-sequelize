@@ -6,12 +6,31 @@ const Enrollment = require("../enrollment/enrollment.model");
 const Session = require("../session/session.model");
 const { USER_ROLE, ENROLLMENT_STATUS } = require("../../constants/enums");
 const Profile = require("../profile/profile.model");
+const { Op } = require("sequelize");
 
 async function create({ payload, role, userId }) {
-  let { teacherId, title, description, price, status, capacity } = payload;
+  let {
+    teacherId,
+    title,
+    description,
+    price = 0,
+    payable_price = 0,
+    status = "draft",
+    capacity = null,
+  } = payload;
 
-  if (!teacherId && role === USER_ROLE.TEACHER) {
+  //check teacherId based on role
+  if (role === USER_ROLE.TEACHER) {
     teacherId = userId;
+  } else if (!teacherId)
+    throw createHttpError.NotFound(courseMessages.teacherNotFound);
+
+  //check user is teacher
+  const teacher = await User.findOne({
+    where: { id: teacherId, role: USER_ROLE.TEACHER },
+  });
+  if (!teacher) {
+    throw createHttpError.NotFound(courseMessages.teacherNotFound);
   }
 
   // the course already exists
@@ -20,43 +39,29 @@ async function create({ payload, role, userId }) {
     throw createHttpError.Conflict(courseMessages.courseAlreadyExists);
   }
 
-  const teacher = await User.findOne({
-    where: { id: teacherId, role: USER_ROLE.TEACHER },
-  });
-  if (!teacher) {
-    throw createHttpError.NotFound(courseMessages.teacherNotFound);
-  }
   const course = await Course.create({
-    teacherId: teacher.id,
+    teacherId,
     title,
+    description,
+    price,
+    payable_price: payable_price || price,
+    status,
+    capacity,
   });
 
-  if (description) {
-    course.description = description;
-  }
-  if (price) {
-    course.price = price;
-  }
-  if (status) {
-    course.status = status;
-  }
-  if (capacity) {
-    course.capacity = capacity;
-  }
-
-  await course.save();
   return course;
 }
 
-async function update(payload) {
-  const { id, title, teacherId, description, capacity, price, status } =
-    payload;
-  console.log(payload);
-  const course = await Course.findByPk(id);
+async function update({ courseId, payload }) {
+  let { teacherId, title } = payload;
+
+  //find course
+  const course = await Course.findByPk(courseId);
   if (!course) {
     throw createHttpError.NotFound(courseMessages.courseNotFound);
   }
 
+  // validate teacher if teacherId has changed
   if (teacherId && teacherId !== course.teacherId) {
     const teacher = await User.findOne({
       where: { role: USER_ROLE.TEACHER, id: teacherId },
@@ -64,39 +69,37 @@ async function update(payload) {
     if (!teacher) {
       throw createHttpError.NotFound(courseMessages.teacherNotFound);
     }
-
     course.teacherId = teacherId;
   }
 
-  if (title) {
-    course.title = title;
-  }
-
+  //if title or teacherId has changed check for duplicate
   if (title || teacherId) {
-    const hasTeacherThisCourse = await Course.findOne({
-      where: { teacherId: course.teacherId, title: course.title },
+    const duplicate = await Course.findOne({
+      where: {
+        id: { [Op.ne]: courseId },
+        teacherId: course.teacherId,
+        title: course.title,
+      },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
-    if (hasTeacherThisCourse) {
+    if (duplicate) {
       throw createHttpError.Conflict(courseMessages.courseAlreadyExists);
     }
   }
 
-  if (description || description === null || description === "") {
-    course.description = description;
+  const updatableFields = [
+    "description",
+    "price",
+    "payablePrice",
+    "capacity",
+    "status",
+  ];
+  for (const key of updatableFields) {
+    if (payload.hasOwnProperty(key)) {
+      course[key] = payload[key];
+    }
   }
-  if (price || price === null) {
-    course.price = price;
-  }
-  //todo check if capacity is less than the students
-  if (capacity || capacity === null || capacity === "") {
-    course.capacity = capacity;
-  }
-
-  if (status) {
-    course.status = status;
-  }
-
   await course.save();
   return course;
 }
@@ -108,16 +111,33 @@ async function remove(id) {
   }
   await course.destroy();
 }
+async function getById(id) {
+  const course = await Course.findByPk(id, {
+    attributes: { exclude: ["createdAt", "updatedAt"] },
+  });
+  if (!course) {
+    throw createHttpError.BadRequest(courseMessages.courseNotFound);
+  }
+  return course;
+}
 
-async function getList() {
-  const courses = await Course.findAll();
+async function getList(queryParameters) {
+  //todo
+  // const { title, status, is_capacity_completed } = queryParameters;
+  const courses = await Course.findAll({
+    attributes: { exclude: ["createdAt", "updatedAt"] },
+  });
   return courses;
 }
 
 async function getCourseSessions(courseId) {
-  const result = await Session.findAll({ where: { courseId } });
+  const result = await Session.findAll({
+    where: { courseId },
+    attributes: { exclude: ["createdAt", "updatedAt"] },
+  });
   return result;
 }
+
 async function getCourseStudents(courseId) {
   const enrollments = await Enrollment.findAll({
     where: { courseId, status: ENROLLMENT_STATUS.COMPLETED },
@@ -147,4 +167,5 @@ module.exports = {
   getList,
   getCourseSessions,
   getCourseStudents,
+  getById,
 };

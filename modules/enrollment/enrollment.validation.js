@@ -19,10 +19,10 @@ const getEnrollmentSchema = Joi.object({
     .optional(),
 });
 const getEnrollmentValidation = validate({
-  body: getEnrollmentSchema,
+  query: getEnrollmentSchema,
 });
-const { swagger: createEnrollmentSwaggerSchema } = j2s(createEnrollmentSchema);
 const { swagger: getEnrollmentSwaggerSchema } = j2s(getEnrollmentSchema);
+const { swagger: createEnrollmentSwaggerSchema } = j2s(createEnrollmentSchema);
 
 module.exports = {
   createEnrollmentValidation,

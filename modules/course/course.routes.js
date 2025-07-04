@@ -24,6 +24,12 @@ router.get(
   courseController.getList
 );
 router.get(
+  "/:id",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
+  courseController.getById
+);
+router.get(
   "/:courseId/sessions",
   AuthMiddleware,
   AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),

@@ -35,6 +35,9 @@ class Enrollment extends Model {
         tableName: "enrollment",
         sequelize,
         underscored: true,
+        defaultScope: {
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
       }
     );
   }

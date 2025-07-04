@@ -25,8 +25,8 @@
  *         description: عدم احراز هویت
  *       403:
  *         description: دسترسی غیرمجاز
-
 */
+
 /**
  * @swagger
  * tags:
@@ -39,20 +39,21 @@
  *     tags: [Enrollment]
  *     security:
  *       - bearerAuth: []
- *     params:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/getEnrollment'
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [pending, completed, failed, canceled]  #  ENROLLMENT_STATUS
+ *         description: 
  *     responses:
- *       201:
- *         description: ثبت نام با موفقیت ایجاد شد
+ *       200:
+ *         description: اطلاعات با موفقیت دریافت شد
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
  *         description: عدم احراز هویت
  *       403:
  *         description: دسترسی غیرمجاز
-
-*/
+ */

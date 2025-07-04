@@ -47,7 +47,7 @@ module.exports = {
       },
       {
         mobile: "7",
-        role: "student",
+        role: "user",
         password: null,
         created_at: new Date(),
         updated_at: new Date(),

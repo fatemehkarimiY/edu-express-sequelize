@@ -26,10 +26,9 @@ const ENROLLMENT_STATUS = {
 };
 
 const COURSE_STATUS = {
-  FINISHED: "finished",
+  COMPLETED: "completed",
   COMING_SOON: "coming_soon",
   IN_PROGRESS: "in_progress",
-  CAPACITY_COMPLETED: "capacity_completed",
   DRAFT: "draft",
   ARCHIVED: "archived",
 };
