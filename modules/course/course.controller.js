@@ -16,7 +16,9 @@ async function create(req, res, next) {
 
 async function getList(req, res, next) {
   try {
-    const course = await courseService.getList();
+    const role = req.role;
+    const userId = req.user;
+    const course = await courseService.getList({ role, userId });
     res.status(200).json({ message: courseMessages.success, data: course });
   } catch (error) {
     next(error);
@@ -48,8 +50,10 @@ async function update(req, res, next) {
 
 async function remove(req, res, next) {
   try {
+    const role = req.role;
+    const userId = req.user;
     const id = req.params.id;
-    const course = await courseService.remove(id);
+    const course = await courseService.remove({ id, role, userId });
     res
       .status(200)
       .json({ message: courseMessages.courseDeleted, data: course });

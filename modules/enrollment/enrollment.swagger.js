@@ -57,3 +57,28 @@
  *       403:
  *         description: دسترسی غیرمجاز
  */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Enrollment
+ *   description: 
+ * 
+ * /enrollment/{id}/cancel:
+ *   put:
+ *      summary:
+ *      tags:
+ *          -   Enrollment
+ *      security:
+ *       - bearerAuth: []
+ *      parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description:
+ *         schema:
+ *           type: integer
+ *      responses:
+ *          200:
+ *              description: success
+ */

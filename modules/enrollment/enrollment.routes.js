@@ -19,11 +19,19 @@ router.get(
   AuthorizeRole(USER_ROLE.STUDENT),
   enrollmentController.getEnrollments
 );
-// router.get(
-//   "/",
+router.put(
+  "/:id/cancel",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.STUDENT),
+  enrollmentController.cancel
+);
+
+//unusual to delete an enrollment
+// router.delete(
+//   "/:id",
 //   AuthMiddleware,
 //   AuthorizeRole(USER_ROLE.STUDENT),
-//   enrollmentController.getPending
+//   enrollmentController.remove
 // );
 
 module.exports = { enrollmentRoutes: router };

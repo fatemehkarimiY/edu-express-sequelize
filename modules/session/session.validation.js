@@ -8,7 +8,7 @@ const createSessionSchema = Joi.object({
   description: Joi.string().optional().allow(null),
   status: Joi.string()
     .valid(...Object.values(SESSION_STATUS))
-    .required(),
+    .optional(),
 });
 const updateSessionSchema = Joi.object({
   courseId: Joi.number().optional(),

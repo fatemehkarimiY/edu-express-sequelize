@@ -1,16 +1,12 @@
-const courseMessages = {
-  courseCreated: "Course created successfully",
-  courseUpdated: "Course updated successfully",
-  courseDeleted: "Course deleted successfully",
-  courseNotFound: "Course not found",
-  courseAlreadyExists: "Course with this title already exists",
-  invalidCourseData: "Invalid course data provided",
-  courseStatusUpdated: "Course status updated successfully",
-  teacherNotFound: "teacher is not correct",
-  courseIsRequired: "Course is required",
+const sessionMessages = {
+  updateSuccessfully: "Update Successfully",
+  createSuccessfully: "Create Successfully",
   duplicateSessionInThisTime: "duplicate Session In This Time",
-  sessionNotFound: "Session not found",
-  remove:"removed successfully"
+  notFound: "Not found",
+  remove: "removed successfully",
+  notBelongToThisUser: "Not Belong To This User",
+  success: "success",
+  failed: "failed",
 };
 
-module.exports = courseMessages;
+module.exports = sessionMessages;

@@ -7,7 +7,8 @@ const courseMessages = {
   courseAlreadyExists: "Course with this title already exists",
   invalidCourseData: "teacherId and title is required",
   courseStatusUpdated: "Course status updated successfully",
-  teacherNotFound: "teacher is not correct",
+  teacherNotFound: "Teacher Not found",
+  courseNotBelongToYou: "course Not Belongs To You",
 };
 
 module.exports = courseMessages;

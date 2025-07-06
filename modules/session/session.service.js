@@ -2,47 +2,65 @@ const createHttpError = require("http-errors");
 const sessionMessages = require("./session.messages");
 const Session = require("./session.model");
 const Course = require("./../course/course.model");
+const { USER_ROLE, SESSION_STATUS } = require("../../constants/enums");
+const { Op } = require("sequelize");
+const courseMessages = require("./session.messages");
+const {
+  normalizeDateToSeconds,
+} = require("../../utils/normalizeDateToSeconds");
 
-async function create(payload) {
-  let { courseId, date, description, status } = payload;
-
-  if (!courseId) {
-    throw createHttpError.BadRequest(sessionMessages.courseIsRequired);
+async function IsCourseBelongToUser({ courseId, userId, role }) {
+  if (role === USER_ROLE.TEACHER) {
+    const course = await Course.findByPk(courseId);
+    if (!course) {
+      throw createHttpError.NotFound(courseMessages.courseNotFound);
+    }
+    if (course.teacherId !== userId) {
+      throw createHttpError.NotFound(sessionMessages.notBelongToThisUser);
+    }
   }
+}
 
-  if (!date) {
-    date = new Date();
-  }
+async function create({ payload, userId, role }) {
+  let {
+    courseId,
+    date = new Date(),
+    description,
+    status = SESSION_STATUS.DRAFT,
+  } = payload;
 
-  // Check if the session already exists
-  const existingSession = await Session.findOne({ where: { courseId, date } });
-  if (existingSession) {
+  await IsCourseBelongToUser({ courseId, userId, role });
+
+  // check for duplicate
+  date = normalizeDateToSeconds(date);
+
+  const duplicate = await Session.findOne({
+    where: {
+      courseId,
+      date,
+    },
+  });
+  if (duplicate) {
     throw createHttpError.Conflict(sessionMessages.duplicateSessionInThisTime);
   }
 
   const session = await Session.create({
     courseId,
     date,
+    description,
+    status,
   });
 
-  if (description) {
-    session.description = description;
-  }
-
-  if (status) {
-    session.status = status;
-  }
-  await session.save();
   return session;
 }
 
-async function update(payload) {
-  let { sessionId, courseId, date, description, status } = payload;
+async function update({ payload, role, userId }) {
+  let { sessionId, courseId, date } = payload;
 
   // Find the session
   const session = await Session.findByPk(sessionId);
   if (!session) {
-    throw createHttpError.NotFound(sessionMessages.sessionNotFound);
+    throw createHttpError.NotFound(sessionMessages.notFound);
   }
 
   // Update fields if provided
@@ -54,37 +72,60 @@ async function update(payload) {
     session.courseId = courseId;
   }
 
-  if (date) {
-    //todo Check if another session exists at the new date/time
-    session.date = date;
+  await IsCourseBelongToUser({ courseId: session.courseId, userId, role });
+
+  if (payload.date || courseId) {
+    let normalizedDate = normalizeDateToSeconds(payload.date || session.date);
+    const duplicate = await Session.findOne({
+      where: {
+        courseId: session.courseId,
+        date: normalizedDate,
+        id: { [Op.ne]: sessionId },
+      },
+    });
+    if (duplicate) {
+      throw createHttpError.Conflict(
+        sessionMessages.duplicateSessionInThisTime
+      );
+    }
   }
 
-  if (description !== undefined) {
-    session.description = description;
-  }
-
-  if (status !== undefined) {
-    session.status = status;
+  const updatableFields = ["description", "date", "status"];
+  for (const key of updatableFields) {
+    if (payload.hasOwnProperty(key)) {
+      session[key] = payload[key];
+    }
   }
 
   await session.save();
   return session;
 }
+
+async function getList({ role, userId }) {
+  const list = await Session.findAll({
+    include: {
+      model: Course,
+      as: "course",
+      where: { ...(role === USER_ROLE.TEACHER && { teacherId: userId }) },
+    },
+  });
+
+  return list;
+}
+
 async function getById(id) {
-  
-  const session = await Session.findByPk(id)
-    if (!session) {
-    throw createHttpError.NotFound(sessionMessages.sessionNotFound);
+  const session = await Session.findByPk(id);
+  if (!session) {
+    throw createHttpError.NotFound(sessionMessages.notFound);
   }
-  return session
+  return session;
 }
-async function remove(id) {
-  
-  const session = await Session.findByPk(id)
-    if (!session) {
-    throw createHttpError.NotFound(sessionMessages.sessionNotFound);
+async function remove({ id, role, userId }) {
+  const session = await Session.findByPk(id);
+  if (!session) {
+    throw createHttpError.NotFound(sessionMessages.notFound);
   }
-  await session.destroy()
-  
+  await IsCourseBelongToUser({ courseId: session.id, userId, role });
+  await session.destroy();
 }
-module.exports = { create, update,getById,remove };
+module.exports = { create, update, getById, remove, getList };

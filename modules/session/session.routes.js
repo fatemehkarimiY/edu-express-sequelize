@@ -3,7 +3,10 @@ const sessionController = require("./session.controller");
 const { AuthMiddleware } = require("../../middleware/authentication");
 const { AuthorizeRole } = require("../../middleware/authorizeRole");
 const { USER_ROLE } = require("../../constants/enums");
-const { createSessionValidation, updateSessionValidation } = require("./session.validation");
+const {
+  createSessionValidation,
+  updateSessionValidation,
+} = require("./session.validation");
 const router = Router();
 
 router.post(
@@ -26,12 +29,17 @@ router.get(
   AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
   sessionController.getById
 );
+router.get(
+  "/",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
+  sessionController.getList
+);
 router.delete(
   "/:id",
   AuthMiddleware,
   AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
   sessionController.remove
 );
-
 
 module.exports = { SessionRoutes: router };

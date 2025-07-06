@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
-const { USER_ROLE, SESSION_STATUS } = require("../../constants/enums");
+const { SESSION_STATUS } = require("../../constants/enums");
 
 class Session extends Model {
   static initModel(sequelize) {
@@ -33,6 +33,9 @@ class Session extends Model {
         tableName: "session",
         sequelize,
         underscored: true,
+        defaultScope: {
+          attributes: { exclude: ["created_at", "updated_at"] },
+        },
       }
     );
   }

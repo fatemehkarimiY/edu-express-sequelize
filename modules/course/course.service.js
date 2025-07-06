@@ -52,7 +52,7 @@ async function create({ payload, role, userId }) {
   return course;
 }
 
-async function update({ courseId, payload }) {
+async function update({ courseId, payload, role }) {
   let { teacherId, title } = payload;
 
   //find course
@@ -104,11 +104,17 @@ async function update({ courseId, payload }) {
   return course;
 }
 
-async function remove(id) {
+async function remove({ id, userId, role }) {
   const course = await Course.findByPk(id);
   if (!course) {
     throw createHttpError.BadRequest(courseMessages.courseNotFound);
   }
+  if (role === USER_ROLE.TEACHER) {
+    if (course.teacherId !== userId) {
+      throw createHttpError.BadRequest(courseMessages.courseNotBelongToYou);
+    }
+  }
+
   await course.destroy();
 }
 async function getById(id) {
@@ -121,11 +127,12 @@ async function getById(id) {
   return course;
 }
 
-async function getList(queryParameters) {
+async function getList({ queryParameters, userId, role }) {
   //todo
   // const { title, status, is_capacity_completed } = queryParameters;
   const courses = await Course.findAll({
     attributes: { exclude: ["createdAt", "updatedAt"] },
+    where: { ...(role === USER_ROLE.TEACHER && { teacherId: userId }) },
   });
   return courses;
 }

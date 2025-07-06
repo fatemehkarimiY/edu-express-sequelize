@@ -8,36 +8,54 @@ async function create(req, res, next) {
 
     await enrollmentService.create({ studentId: userId, courseId });
     res.status(201).json({
-      message: EnrollmentMessages.add,
+      message: EnrollmentMessages.success,
     });
   } catch (error) {
     next(error);
   }
 }
-async function getPending(req, res, next) {
+
+/** @deprecated
+ * it's unusual to delete an enrollment
+ * */
+async function remove(req, res, next) {
   try {
     const userId = req.user;
+    const id = req.params.id;
 
-    const result = await enrollmentService.getPendingEnrollments(userId);
-    res.status(201).json({
-      message: EnrollmentMessages.getPending,
-      data: result,
+    await enrollmentService.remove({ userId, id });
+    res.status(200).json({
+      message: EnrollmentMessages.remove,
     });
   } catch (error) {
     next(error);
   }
 }
+async function cancel(req, res, next) {
+  try {
+    const userId = req.user;
+    const id = req.params.id;
+
+    await enrollmentService.cancelEnrollment({ userId, id });
+    res.status(200).json({
+      message: EnrollmentMessages.success,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getEnrollments(req, res, next) {
   try {
     const userId = req.user;
     const status = req.query?.status;
-    
+
     const result = await enrollmentService.getUserEnrollments({
       userId,
       status,
     });
-    res.status(201).json({
-      message: EnrollmentMessages.getPending,
+    res.status(200).json({
+      message: EnrollmentMessages.success,
       data: result,
     });
   } catch (error) {
@@ -45,4 +63,4 @@ async function getEnrollments(req, res, next) {
   }
 }
 
-module.exports = { create, getPending, getEnrollments };
+module.exports = { create, getEnrollments, remove, cancel };

@@ -16,7 +16,7 @@
  *             $ref: '#/components/schemas/createSession'
  *     responses:
  *       201:
- *         description: جلسه با موفقیت ایجاد شد
+ *         description: success
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
@@ -39,7 +39,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: شناسه دوره  
+ *         description:   
  *     requestBody:
  *       required: true
  *       content:
@@ -48,7 +48,7 @@
  *             $ref: '#/components/schemas/updateSession'
  *     responses:
  *       200:
- *         description: جلسه با موفقیت ویرایش شد
+ *         description: success
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
@@ -72,7 +72,7 @@
  *         required: true
  *     responses:
  *       200:
- *         description: جلسه با موفقیت دریافت شد
+ *         description: success
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
@@ -81,6 +81,7 @@
  *         description: دسترسی غیرمجاز
 
 */
+
 /**
  * @swagger
  * tags:
@@ -97,6 +98,27 @@
  *     responses:
  *       200:
  *         description: جلسه با موفقیت حذف شد
+ *       400:
+ *         description: خطای اعتبارسنجی
+ *       401:
+ *         description: عدم احراز هویت
+ *       403:
+ *         description: دسترسی غیرمجاز
+
+*/
+
+/**
+ * @swagger
+ * tags:
+ *   name: Session
+ * /session:
+ *   get:
+ *     tags: [Session]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: success 
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:

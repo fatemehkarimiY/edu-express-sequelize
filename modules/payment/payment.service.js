@@ -1,16 +1,42 @@
-const { PAYMENT_STATUS, ORDER_STATUS } = require("../../constants/enums");
+const {
+  PAYMENT_STATUS,
+  ORDER_STATUS,
+  ENROLLMENT_STATUS,
+} = require("../../constants/enums");
 const Payment = require("./payment.model");
 const { Order, OrderItem } = require("./../order/order.model");
 const User = require("./../user/user.model");
-const { getPendingEnrollments } = require("../enrollment/enrollment.service");
 const {
   zarinpalRequest,
   zarinpalVerify,
 } = require("../zarinpal/zarinpal.service");
 const createHttpError = require("http-errors");
+const { getEnrollments } = require("../enrollment/enrollment.controller");
+const Course = require("../course/course.model");
+const logger = require("./../../utils/logger");
+
 async function payment({ userId }) {
-  //getUserEnrollmentThatReadyToPay
-  const enrollments = await getPendingEnrollments(userId);
+  //pending enrollments
+  const enrollments = await getEnrollments({
+    userId,
+    status: ENROLLMENT_STATUS.PENDING,
+  });
+
+  //check for capacity of course
+
+  const courses = [];
+  const amount = 0;
+
+  enrollments.map(async (e) => {
+    const c = await Course.findByPk(e.courseId);
+    if (!c) {
+      logger.error(`${e.console} not found`);
+    }
+    courses.push(c);
+    amount += c?.payablePrice ?? 0;
+  });
+
+  logger.info(courses);
   const finalAmount = 100; //todo calculate price
   const payment = await Payment.create({
     userId,

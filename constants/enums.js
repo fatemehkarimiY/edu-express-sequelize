@@ -35,7 +35,6 @@ const COURSE_STATUS = {
 
 const SESSION_STATUS = {
   FINISHED: "finished",
-  IN_PROGRESS: "in_progress",
   DRAFT: "draft",
   CANCELED: "canceled",
   NOT_FORMED: "not_formed", //تشکیل نشد

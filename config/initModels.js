@@ -91,10 +91,12 @@ async function initModels() {
 
   Session.belongsTo(Course, {
     foreignKey: "courseId",
+    as: "course",
   });
 
   Course.hasMany(Session, {
     foreignKey: "courseId",
+    as: "session",
   });
 
   // #endregion enrollment
