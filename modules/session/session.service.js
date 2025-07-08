@@ -20,7 +20,13 @@ async function IsCourseBelongToUser({ courseId, userId, role }) {
     }
   }
 }
-
+async function isSessionBelongToUser({ sessionId, userId, role }) {
+  const session = await Session.findByPk(sessionId);
+  if (!session) {
+    throw createHttpError.NotFound(sessionMessages.sessionNotFound);
+  }
+  await IsCourseBelongToUser({ courseId: session.courseId, userId, role });
+}
 async function create({ payload, userId, role }) {
   let {
     courseId,
@@ -128,4 +134,11 @@ async function remove({ id, role, userId }) {
   await IsCourseBelongToUser({ courseId: session.id, userId, role });
   await session.destroy();
 }
-module.exports = { create, update, getById, remove, getList };
+module.exports = {
+  create,
+  update,
+  getById,
+  remove,
+  getList,
+  isSessionBelongToUser,
+};

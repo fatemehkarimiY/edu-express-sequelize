@@ -24,6 +24,7 @@ const { assignRoleSwaggerSchema } = require("../modules/role/role.validation");
 const {
   verifyPaymentSwaggerSchema,
 } = require("../modules/payment/payment.validation");
+const { createAttendanceSwaggerSchema, updateAttendanceSwaggerSchema } = require("../modules/attendance/attendance.validation");
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -46,6 +47,8 @@ const options = {
         verifyOtp: verifyOtpSwaggerSchema,
         createCourse: createCourseSwaggerSchema,
         updateCourse: updateCourseSwaggerSchema,
+        createAttendance: createAttendanceSwaggerSchema,
+        updateAttendance: updateAttendanceSwaggerSchema,
         createEnrollment: createEnrollmentSwaggerSchema,
         createSession: createSessionSwaggerSchema,
         updateSession: updateSessionSwaggerSchema,

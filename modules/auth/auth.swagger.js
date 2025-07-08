@@ -18,10 +18,10 @@
  *             properties:
  *               mobile:
  *                 type: string
- *                 example: "09123456789"
+ *                 example: "1"
  *               password:
  *                 type: string
- *                 example: "123456"
+ *                 example: "123"
  *     responses:
  *       200:
  *         description: ورود موفق
@@ -58,5 +58,5 @@
  *            $ref: '#/components/schemas/verifyOtp'
  *     responses:
  *       200:
- *         description: تایید موفق
+ *         description: success
  */

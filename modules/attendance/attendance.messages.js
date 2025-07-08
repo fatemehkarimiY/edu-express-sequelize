@@ -1,15 +1,16 @@
 const attendanceMessages = {
-  courseIdAndStudentIdAreRequired: "courseId And StudentId Are Required",
-  courseNotFound: "Course not found",
+  sessionNotFound: "Session not found",
   studentNotFound: "Student not found",
-  courseUpdated: "Course updated successfully",
+  updated: "updated successfully",
+  remove: "removed successfully",
   courseDeleted: "Course deleted successfully",
   courseAlreadyExists: "Course with this title already exists",
   invalidCourseData: "Invalid course data provided",
   courseStatusUpdated: "Course status updated successfully",
   teacherNotFound: "teacher is not correct",
   attendanceNotFound:"attendance Not Found",
-  attendanceExistForThisSession:"attendance Exist For This Session"
+  duplicate:"duplicate",
+  studentIsNotEnrolledThisSession:"student Is Not Enrolled This Session"
 };
 
 module.exports = attendanceMessages;
