@@ -129,7 +129,7 @@ async function initModels() {
     foreignKey: "userId",
     as: "orders",
   });
-  OrderItem.hasOne(Course, {
+  OrderItem.belongsTo(Course, {
     foreignKey: "courseId",
     as: "course",
   });
@@ -137,8 +137,8 @@ async function initModels() {
     foreignKey: "orderId",
     as: "payment",
   });
-  Payment.hasOne(Payment, {
-    foreignKey: "paymentId",
+  Payment.belongsTo(Order, {
+    foreignKey: "orderId",
     as: "order",
   });
 

@@ -45,8 +45,14 @@ class Course extends Model {
         tableName: "course",
         sequelize,
         underscored: true,
-        defaultScope: {
-          attributes: { exclude: ["createdAt", "updatedAt"] },
+        defaultScope: { attributes: { exclude: ["createdAt", "updatedAt"] } },
+        scopes: {
+          withTeacher: {
+            include: {
+              model: sequelize.models.User,
+              as: "teacher",
+            },
+          },
         },
       }
     );

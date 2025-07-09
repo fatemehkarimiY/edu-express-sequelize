@@ -118,9 +118,7 @@ async function remove({ id, userId, role }) {
   await course.destroy();
 }
 async function getById(id) {
-  const course = await Course.findByPk(id, {
-    attributes: { exclude: ["createdAt", "updatedAt"] },
-  });
+  const course = await Course.scope("withTeacher").findByPk(id);
   if (!course) {
     throw createHttpError.BadRequest(courseMessages.courseNotFound);
   }
