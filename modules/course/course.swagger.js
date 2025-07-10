@@ -73,7 +73,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: شناسه دوره
+ *         description: 
  *         schema:
  *           type: integer
  *     responses:
@@ -94,12 +94,12 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: شناسه دوره
+ *         description: 
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: دوره حذف شد
+ *         description: success
  *       401:
  *         description: عدم احراز هویت
  *       403:

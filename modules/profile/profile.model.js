@@ -48,17 +48,20 @@ class Profile extends Model {
         modelName: "Profile",
         tableName: "profile",
         sequelize,
-
         underscored: true,
+        scopes: {
+          withUser: {
+            include: [
+              {
+                model: sequelize.models.User,
+                as: "user",
+                attributes: ["mobile", "role"],
+              },
+            ],
+          },
+        },
         defaultScope: {
           attributes: { exclude: ["createdAt", "updatedAt", "id", "userId"] },
-          include: [
-            {
-              model: sequelize.models.User,
-              as: "user",
-              attributes: ["mobile", "role"],
-            },
-          ],
         },
       }
     );

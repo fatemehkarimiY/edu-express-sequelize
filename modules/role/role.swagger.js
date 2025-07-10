@@ -17,7 +17,7 @@
  *           schema:
  *             $ref: '#/components/schemas/assignRole'
  *     responses:
- *       201:
+ *       200:
  *         description: نقش با موفقیت اعمال شد
  *       400:
  *         description: خطای اعتبارسنجی

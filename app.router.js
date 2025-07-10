@@ -14,6 +14,8 @@ const { SessionRoutes } = require("./modules/session/session.routes");
 const { AttendanceRoutes } = require("./modules/attendance/attendance.routes");
 const { OrderRoutes } = require("./modules/order/order.routes");
 const { PaymentRoutes } = require("./modules/payment/payment.routes");
+const { TeacherRoutes } = require("./modules/teacher/teacher.routes");
+const { StudentRoutes } = require("./modules/student/student.routes");
 const router = Router();
 
 router.use("/auth", AuthRouters);
@@ -25,4 +27,6 @@ router.use("/session", SessionRoutes);
 router.use("/attendance", AttendanceRoutes);
 router.use("/order", OrderRoutes);
 router.use("/payment", PaymentRoutes);
+router.use("/teacher", TeacherRoutes);
+router.use("/student", StudentRoutes);
 module.exports = router;

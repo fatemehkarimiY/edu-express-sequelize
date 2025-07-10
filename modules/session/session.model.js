@@ -36,6 +36,14 @@ class Session extends Model {
         defaultScope: {
           attributes: { exclude: ["created_at", "updated_at"] },
         },
+        // scopes: {
+        //   withCourse: {
+        //     include: {
+        //       model: sequelize.models.Course,
+        //       as: "course",
+        //     },
+        //   },
+        // },
       }
     );
   }

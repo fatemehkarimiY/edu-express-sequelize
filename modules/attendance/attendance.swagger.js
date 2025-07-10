@@ -53,7 +53,7 @@
  *           schema:
  *             $ref: '#/components/schemas/updateAttendance'
  *     responses:
- *       201:
+ *       200:
  *         description: success
  *       400:
  *         description: خطای اعتبارسنجی

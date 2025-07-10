@@ -11,7 +11,7 @@
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       201:
+ *       200:
  *         description: سفارشات با موفقیت دریافت شد
  *       400:
  *         description: خطای اعتبارسنجی

@@ -11,8 +11,8 @@
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       201:
- *         description: به هصفحه پرداخت منقل شدید
+ *       200:
+ *         description: به صفحه پرداخت منقل شدید
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
@@ -40,7 +40,7 @@
  *           schema:
  *             $ref: '#/components/schemas/verifyPayment'
  *     responses:
- *       201:
+ *       200:
  *         description: پرداخت تایید شد
  *       400:
  *         description: خطای اعتبارسنجی

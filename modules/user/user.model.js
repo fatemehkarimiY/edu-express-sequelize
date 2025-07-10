@@ -33,6 +33,7 @@ class User extends Model {
         tableName: "user",
         sequelize,
         underscored: true,
+        defaultScope: { attributes: { exclude: ["createdAt", "updatedAt"] } },
       }
     );
   }

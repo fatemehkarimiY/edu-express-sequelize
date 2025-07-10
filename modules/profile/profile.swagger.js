@@ -33,8 +33,8 @@
  *           schema:
  *             $ref: '#/components/schemas/updateProfile'
  *     responses:
- *       201:
- *         description: ثبت نام با موفقیت ایجاد شد
+ *       200:
+ *         description: success
  *       400:
  *         description: خطای اعتبارسنجی
  *       401:
