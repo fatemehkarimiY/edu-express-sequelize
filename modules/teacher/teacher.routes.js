@@ -12,5 +12,17 @@ router.get(
   AuthorizeRole(USER_ROLE.ADMIN),
   teacherController.getList
 );
+router.get(
+  "/popular",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN),
+  teacherController.getPopularTeacher
+);
+router.get(
+  "/excel",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN),
+  teacherController.getExcel
+);
 
 module.exports = { TeacherRoutes: router };
