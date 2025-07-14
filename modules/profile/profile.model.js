@@ -61,7 +61,7 @@ class Profile extends Model {
           },
         },
         defaultScope: {
-          attributes: { exclude: ["createdAt", "updatedAt", "id", "userId"] },
+          attributes: { exclude: ["createdAt", "updatedAt"] },
         },
       }
     );

@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const Profile = require("../profile/profile.model");
 const Token = require("../user/refreshToken.model");
 const RefreshToken = require("../user/refreshToken.model");
+const { comparePassword } = require("../../utils/password");
 
 async function login(mobile, password) {
   const user = await User.findOne({ where: { mobile } });
@@ -15,9 +16,7 @@ async function login(mobile, password) {
   if (!user) {
     throw createHttpError.NotFound(authMessages.userNotFound);
   }
-
-  // const isPasswordCorrect = await bcrypt.compare(password, user.password);
-  const isPasswordCorrect = password === user.password;
+  const isPasswordCorrect = await comparePassword(password, user.password);
 
   if (!isPasswordCorrect) {
     throw createHttpError.Unauthorized(authMessages.passwordIsIncorrect);
