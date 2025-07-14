@@ -7,6 +7,7 @@ const Session = require("../session/session.model");
 const { USER_ROLE, ENROLLMENT_STATUS } = require("../../constants/enums");
 const Profile = require("../profile/profile.model");
 const { Op } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
 async function create({ payload, role, userId }) {
   let {
@@ -164,7 +165,31 @@ async function getCourseStudents(courseId) {
     ...user.profile,
   }));
 }
+async function getCompleteCoursesStats() {
+  const query = `select 
+                    c.id as course_id,
+                    c.title,
+                    p.fullname as teacher,
+                    u.mobile as teacher_mobile,
+                    COUNT(DISTINCT  e.id) as students_count,
+                    COUNT(DISTINCT s.id) as sessions_count,
+                    COUNT(DISTINCT CASE WHEN s.status = 'draft' THEN s.id END) as draft_session_count,
+                    COUNT(DISTINCT CASE WHEN s.status = 'finished' THEN s.id END) as finished_session_count,
+                    COUNT(DISTINCT CASE WHEN s.status = 'cancelled' THEN s.id END) as cancelled_session_count,
+                    COUNT(DISTINCT CASE WHEN s.status = 'not_formed' THEN s.id END) as not_formed_session_count,
+                  from course c 
+                  JOIN user u on c.teacher_id = u.id
+                  LEFT JOIN profile p on p.user_id = u.id
+                  LEFT JOIN enrollment e on e.course_id= c.id
+                  LEFT JOIN session s on c.id = s.course_id
+                  GROUP BY c.id, c.title, u.mobile, p.fullname`;
 
+  const result = await sequelize.query(query, {
+    type: sequelize.QueryTypes.SELECT,
+  });
+
+  return result;
+}
 module.exports = {
   create,
   remove,
@@ -173,4 +198,5 @@ module.exports = {
   getCourseSessions,
   getCourseStudents,
   getById,
+  getCompleteCoursesStats,
 };

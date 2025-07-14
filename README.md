@@ -158,11 +158,13 @@ npm start
 - `DELETE /course/:id`
 - `GET /course/:id/session`
 - `GET /course/:id/students`
+- `GET /course/complete-stats`
 
 ### Enrollment
 
 - `POST /enrollment`
 - `GET /enrollment`
+- `GET /enrolled-students`
 - `PUT /enrollment/:id/cancel`
 
 ### Sessions

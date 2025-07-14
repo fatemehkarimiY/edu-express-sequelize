@@ -80,6 +80,15 @@ async function getCourseStudents(req, res, next) {
     next(error);
   }
 }
+// آمار کامل هر دوره شامل معلم، تعداد دانش‌آموز، و جلسات
+async function getCompleteCoursesStats(req, res, next) {
+  try {
+    const list = await courseService.getCompleteCoursesStats();
+    res.status(200).json({ message: courseMessages.success, data: list });
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   create,
@@ -89,4 +98,5 @@ module.exports = {
   getCourseSessions,
   getCourseStudents,
   getById,
+  getCompleteCoursesStats,
 };

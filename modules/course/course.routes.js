@@ -23,6 +23,14 @@ router.get(
   AuthorizeRole(USER_ROLE.ADMIN, USER_ROLE.TEACHER),
   courseController.getList
 );
+
+router.get(
+  "/complete-stats",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN),
+  courseController.getCompleteCoursesStats
+);
+
 router.get(
   "/:id",
   AuthMiddleware,

@@ -63,4 +63,22 @@ async function getEnrollments(req, res, next) {
   }
 }
 
-module.exports = { create, getEnrollments, remove, cancel };
+async function getEnrolledStudents(req, res, next) {
+  try {
+    const result = await enrollmentService.getEnrolledStudents(req.query);
+    res.status(200).json({
+      message: EnrollmentMessages.success,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  create,
+  getEnrollments,
+  remove,
+  cancel,
+  getEnrolledStudents,
+};

@@ -29,9 +29,6 @@
 
 /**
  * @swagger
- * tags:
- *   name: Enrollment
- *   description: 
 
  * /enrollment:
  *   get:
@@ -62,8 +59,8 @@
  * @swagger
  * tags:
  *   name: Enrollment
- *   description: 
- * 
+ *   description:
+ *
  * /enrollment/{id}/cancel:
  *   put:
  *      summary:
@@ -81,4 +78,30 @@
  *      responses:
  *          200:
  *              description: success
+ */
+
+/**
+ * @swagger
+ * /enrollment/enrolled-students:
+ *   get:
+ *     summary:
+ *     tags: [Enrollment]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [pending, completed, failed, canceled]  #  ENROLLMENT_STATUS
+ *     responses:
+ *       200:
+ *         description: اطلاعات با موفقیت دریافت شد
+ *       400:
+ *         description: خطای اعتبارسنجی
+ *       401:
+ *         description: عدم احراز هویت
+ *       403:
+ *         description: دسترسی غیرمجاز
  */

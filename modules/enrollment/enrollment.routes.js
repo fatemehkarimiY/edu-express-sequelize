@@ -19,6 +19,12 @@ router.get(
   AuthorizeRole(USER_ROLE.STUDENT),
   enrollmentController.getEnrollments
 );
+router.get(
+  "/enrolled-students",
+  AuthMiddleware,
+  AuthorizeRole(USER_ROLE.ADMIN),
+  enrollmentController.getEnrolledStudents
+);
 router.put(
   "/:id/cancel",
   AuthMiddleware,

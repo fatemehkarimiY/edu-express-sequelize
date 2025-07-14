@@ -73,7 +73,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: 
+ *         description:
  *         schema:
  *           type: integer
  *     responses:
@@ -94,7 +94,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: 
+ *         description:
  *         schema:
  *           type: integer
  *     responses:
@@ -161,4 +161,22 @@
  *      responses:
  *          200:
  *              description: success
+ */
+
+/**
+ * @swagger
+ * /course/complete-stats:
+ *  get:
+ *      summary:
+ *      tags:
+ *          -   Course
+ *      security:
+ *       - bearerAuth: []
+ *      responses:
+ *          200:
+ *              description: success
+ *          401:
+ *              description: عدم احراز هویت
+ *          403:
+ *              description: دسترسی غیرمجاز
  */
