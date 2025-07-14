@@ -16,6 +16,7 @@ const { OrderRoutes } = require("./modules/order/order.routes");
 const { PaymentRoutes } = require("./modules/payment/payment.routes");
 const { TeacherRoutes } = require("./modules/teacher/teacher.routes");
 const { StudentRoutes } = require("./modules/student/student.routes");
+// const { ReportRoutes } = require("./modules/reports/report.route");
 const router = Router();
 
 router.use("/auth", AuthRouters);
@@ -29,4 +30,5 @@ router.use("/order", OrderRoutes);
 router.use("/payment", PaymentRoutes);
 router.use("/teacher", TeacherRoutes);
 router.use("/student", StudentRoutes);
+// router.use("/reports", ReportRoutes);
 module.exports = router;

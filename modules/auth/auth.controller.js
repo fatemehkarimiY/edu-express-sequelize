@@ -30,6 +30,16 @@ async function verifyOtp(req, res, next) {
     next(error);
   }
 }
+async function refreshToken(req, res, next) {
+  try {
+    const { refreshToken } = req.body;
+
+    const tokens = await authService.refreshToken(refreshToken);
+    res.status(200).json({ message: authMessages.refreshTokenSuccess, data: tokens });
+  } catch (error) {
+    next(error);
+  }
+}
 
 
-module.exports = { login, sendOtp, verifyOtp };
+module.exports = { login, sendOtp, verifyOtp,refreshToken };

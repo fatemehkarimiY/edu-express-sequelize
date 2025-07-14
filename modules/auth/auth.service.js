@@ -88,15 +88,42 @@ async function verifyOtp(mobile, otpCode) {
 
   return tokens;
 }
+
+async function refreshToken(refreshToken) {
+  const _refreshToken = await RefreshToken.findOne({
+    where: { token: refreshToken },
+  });
+  if (!_refreshToken) {
+    throw createHttpError.Unauthorized(authMessages.refreshTokenNotFound);
+  }
+
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  const user = await User.findOne({ where: { id: decoded.id } });
+  if (!user) {
+    throw createHttpError.Unauthorized(authMessages.userNotFound);
+  }
+
+  if (decoded.expiresAt < new Date()) {
+    throw createHttpError.Unauthorized(authMessages.refreshTokenExpired);
+  }
+  const tokens = generateToken({ id: user.id, role: user?.role });
+  await RefreshToken.create({
+    userId: user.id,
+    token: tokens.refreshToken,
+    expiresAt: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
+  });
+  await _refreshToken.destroy();
+  return tokens;
+}
+
 function generateToken(payload) {
   const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
   });
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "6d",
+    expiresIn: "6d", //todo i need to change this to 15 minutes
   });
 
   return { refreshToken, accessToken };
 }
-
-module.exports = { login, sendOtp, verifyOtp };
+module.exports = { login, sendOtp, verifyOtp, refreshToken };

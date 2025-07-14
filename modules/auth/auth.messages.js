@@ -12,6 +12,9 @@ const authMessages = {
   otpAlreadySent: "An OTP has already been sent to this user, wait for it to expire or resend after expiration",
   verifyOtpSuccess: "OTP verified successfully",
   profileUpdatedSuccess: "Profile updated successfully",
+  refreshTokenSuccess: "Refresh token generated successfully",
+  refreshTokenNotFound: "Refresh token not found",
+  refreshTokenExpired: "Refresh token expired",
 };
 
 module.exports = authMessages

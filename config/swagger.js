@@ -4,6 +4,7 @@ const { version } = require("./../package.json");
 const {
   sendOtpSwaggerSchema,
   verifyOtpSwaggerSchema,
+  refreshTokenSwaggerSchema,
 } = require("../modules/auth/auth.validation");
 const {
   createCourseSwaggerSchema,
@@ -45,6 +46,7 @@ const options = {
       schemas: {
         sendOtp: sendOtpSwaggerSchema,
         verifyOtp: verifyOtpSwaggerSchema,
+        refreshToken: refreshTokenSwaggerSchema,
         createCourse: createCourseSwaggerSchema,
         updateCourse: updateCourseSwaggerSchema,
         createAttendance: createAttendanceSwaggerSchema,
